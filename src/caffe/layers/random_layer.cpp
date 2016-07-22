@@ -25,7 +25,6 @@ void RandomLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype> *> &top,
     const Dtype *top_diff = top[0]->cpu_diff();
     Dtype *bottom_diff = bottom[0]->mutable_cpu_diff();
     const int count = bottom[0]->count();
-    Dtype negative_slope = this->layer_param_.relu_param().negative_slope();
     for (int i = 0; i < count; ++i) {
       // If incoming value is negative set gradient to zero
       bottom_diff[i] = top_diff[i] * (bottom_data[i] > 0);
@@ -38,5 +37,4 @@ STUB_GPU(RandomLayer);
 #endif
 
 INSTANTIATE_CLASS(RandomLayer);
-REGISTER_LAYER_CLASS(Random);
 } // namespace caffe
