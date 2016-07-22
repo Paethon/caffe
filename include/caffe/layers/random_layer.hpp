@@ -3,6 +3,10 @@
 
 #include <vector>
 
+#include <boost/random.hpp>
+#include <boost/random/uniform_int_distribution.hpp>
+#include <boost/math/distributions/normal.hpp>
+
 #include "caffe/blob.hpp"
 #include "caffe/layer.hpp"
 #include "caffe/proto/caffe.pb.h"
@@ -19,9 +23,15 @@ public:
   explicit RandomLayer(const LayerParameter &param)
       : NeuronLayer<Dtype>(param) {}
 
+  virtual void LayerSetUp(const vector<Blob<Dtype> *> &bottom,
+                          const vector<Blob<Dtype> *> &top);
+
   virtual inline const char *type() const { return "Random"; }
 
 protected:
+  boost::mt19937 rng;
+  boost::random::uniform_int_distribution<> dist;
+
   virtual void Forward_cpu(const vector<Blob<Dtype> *> &bottom,
                            const vector<Blob<Dtype> *> &top);
 
