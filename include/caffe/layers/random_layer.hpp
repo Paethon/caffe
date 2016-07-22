@@ -9,6 +9,8 @@
 
 #include "caffe/layers/neuron_layer.hpp"
 
+#define CPU_ONLY
+
 namespace caffe {
 
 /**

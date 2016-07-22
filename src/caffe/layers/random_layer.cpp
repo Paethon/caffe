@@ -38,5 +38,5 @@ STUB_GPU(RandomLayer);
 #endif
 
 INSTANTIATE_CLASS(RandomLayer);
-
+REGISTER_LAYER_CLASS(Random);
 } // namespace caffe
