@@ -1,0 +1,6 @@
+-std=c++1y
+-Wall
+-Wextra
+-Wpedantic
+-fcilkplus
+-lcilkrts
