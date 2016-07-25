@@ -34,6 +34,18 @@ layer {
   }
 }
 layer {
+  name: "rng2"
+  type: "Random"
+  bottom: "data"
+  top: "data"
+  include {
+    phase: TRAIN
+  }
+  random_param {
+  scale: 1
+  }
+}
+layer {
   name: "conv1"
   type: "Convolution"
   bottom: "data"
@@ -59,6 +71,18 @@ layer {
   }
 }
 layer {
+  name: "rng3"
+  type: "Random"
+  bottom: "conv1"
+  top: "conv1"
+  include {
+    phase: TRAIN
+  }
+  random_param {
+  scale: 1
+  }
+}
+layer {
   name: "pool1"
   type: "Pooling"
   bottom: "conv1"
@@ -74,6 +98,18 @@ layer {
   type: "ReLU"
   bottom: "pool1"
   top: "pool1"
+}
+layer {
+  name: "rng"
+  type: "Random"
+  bottom: "pool1"
+  top: "pool1"
+  include {
+    phase: TRAIN
+  }
+  random_param {
+  scale: 1
+  }
 }
 layer {
   name: "conv2"
@@ -98,6 +134,18 @@ layer {
     bias_filler {
       type: "constant"
     }
+  }
+}
+layer {
+  name: "rng3"
+  type: "Random"
+  bottom: "conv2"
+  top: "conv2"
+  include {
+    phase: TRAIN
+  }
+  random_param {
+  scale: 1
   }
 }
 layer {

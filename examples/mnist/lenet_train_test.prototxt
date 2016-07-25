@@ -19,7 +19,7 @@ layer {
 layer {
   name: "mnist"
   type: "Data"
-  top: "data"
+  top: "rnd"
   top: "label"
   include {
     phase: TEST
@@ -33,10 +33,22 @@ layer {
     backend: LMDB
   }
 }
+layer{
+  name: "rand"
+  type: "Random"
+  bottom: "data"
+  top: "rnd"
+  include {
+    phase: TRAIN
+  }
+  random_param {
+    scale: 1000
+  }
+}
 layer {
   name: "conv1"
   type: "Convolution"
-  bottom: "data"
+  bottom: "rnd"
   top: "conv1"
   param {
     lr_mult: 1

@@ -8,7 +8,7 @@ namespace caffe {
 template <typename Dtype>
 void RandomLayer<Dtype>::LayerSetUp(const vector<Blob<Dtype> *> &bottom,
                                     const vector<Blob<Dtype> *> &top) {
-  dist = boost::random::uniform_int_distribution<>(-1000, 1000);
+  dist = boost::random::uniform_int_distribution<>(0, 10000);
   return;
 }
 
@@ -18,8 +18,9 @@ void RandomLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
   const Dtype *bottom_data = bottom[0]->cpu_data(); // Incoming
   Dtype *top_data = top[0]->mutable_cpu_data();     // Outgoing
   const int count = bottom[0]->count();             // Number of values
+  Dtype scale = this->layer_param_.random_param().scale();
   for (int i = 0; i < count; ++i) {
-    top_data[i] = bottom_data[i] + dist(rng)/1000;
+    top_data[i] = bottom_data[i] * (dist(rng) + 1000) / 10000 * scale;
   }
 }
 
