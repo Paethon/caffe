@@ -3,6 +3,7 @@
 #include <dirent.h>
 #include <random>
 #include <iomanip>
+#include <fstream>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/progress.hpp>
@@ -114,6 +115,14 @@ int main(int argc, char *argv[]) {
 
   boost::progress_display progress(samples); // For the nice progress bar
 
+  auto index_file_name1 = vm["out"].as<string>() + "/index1.txt";
+  auto index_file_name2 = vm["out"].as<string>() + "/index2.txt";
+  auto index_file_name3 = vm["out"].as<string>() + "/index3.txt";
+  ofstream index_file1, index_file2, index_file3;
+  index_file1.open(index_file_name1);
+  index_file2.open(index_file_name2);
+  index_file3.open(index_file_name3);
+
   // Extract and save all the patches
   for (int i = 0; i < samples; i++) {
     // Select two random images and load them
@@ -160,9 +169,14 @@ int main(int argc, char *argv[]) {
     cv::imwrite(vm["out"].as<string>() + "/" + zero_pad(i, padding) +
                     "_patch_3.png",
                 patch3);
+    // Write to index file (similar similar different)
+    index_file1 << zero_pad(i, padding) << "_patch_1.png 0" << std::endl;
+    index_file2 << zero_pad(i, padding) << "_patch_2.png 0" << std::endl;
+    index_file3 << zero_pad(i, padding) << "_patch_3.png 0" << std::endl;
+    // Advance and refresh progress bar
     ++progress;
   }
-
-  // Now we have to generate the LMDB
-  
+  index_file1.close();
+  index_file2.close();
+  index_file3.close();
 }
